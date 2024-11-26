@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar pendientes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <label for="opciones">Selecciona el evento a modificar:</label><br>
+        <form method="get" action="/editar/modificar">
+            <select name="id" id="opciones">
+                <!-- Iteramos sobre la lista de tareas -->
+                {% for tarea in tareas[1:] %} 
+                    <option value="{{ loop.index }}">{{ tarea[0] }}</option> <!-- Mostrar el nombre de la tarea -->
+                {% endfor %}
+
+            </select><br>
+            <button type="submit">Aceptar</button>
+        </form>
+    </div>
+    <div class="container">
+        <a href="/">Volver a inicio</a>
+    </div>
+</body>
+</html>

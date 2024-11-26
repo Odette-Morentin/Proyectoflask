@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver pendientes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+    <style>
+        /* Estilos para el modal */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Asegura que esté por encima de otros elementos */
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .close-modal {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .close-modal:hover {
+            background: #45a049;
+        }
+
+        /* Prevenir scroll del fondo cuando el modal está abierto */
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* Botón de retroceder */
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center;">Calendario de Pendientes</h1>
+        <div id="calendar"></div>
+        <!-- Botón para regresar -->
+        <div style="text-align: center;">
+            <a href="/" class="btn-back">Volver al inicio</a>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar los detalles -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title"></h2>
+            <p id="modal-description"></p>
+            <button class="close-modal" onclick="closeModal()">Cerrar</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            // Inicializar FullCalendar
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: '/tareas_json', // Cargar eventos desde el backend
+                headerToolbar: {
+                    start: 'prev,next today',
+                    center: 'title',
+                    end: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                eventColor: '#3788d8', // Color de los eventos
+                locale: 'es', // Español
+
+                // Configuración para el clic en eventos
+                eventClick: function (info) {
+                    // Abrir modal y mostrar detalles
+                    openModal(info.event.title, info.event.extendedProps.description);
+                }
+            });
+
+            calendar.render();
+        });
+
+        // Función para abrir el modal
+        function openModal(title, description) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-description').textContent = description;
+            document.getElementById('modal').style.display = 'flex';
+            document.body.classList.add('modal-open'); // Prevenir scroll del fondo
+        }
+
+        // Función para cerrar el modal
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.body.classList.remove('modal-open'); // Permitir scroll nuevamente
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - Organízate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/agregar">Agregar pendiente</a>
+        <a href="/ver">Ver pendientes</a>
+        <a href="/editar">Editar pendientes</a>
+    </nav>
+    <div class="container">
+        <h1 style="text-align: center; color: #4CAF50;">Bienvenido a Organízate</h1>
+        <p style="text-align: center;">Haz clic en una opción para comenzar.</p>
+        <div style="text-align: center;">
+            <a href="/agregar" class="btn">Agregar Pendiente</a>
+            <a href="/ver" class="btn">Ver Pendientes</a>
+            <a href="/editar" class="btn">Editar Pendientes</a>
+        </div>
+    </div>
+</body>
+</html>
